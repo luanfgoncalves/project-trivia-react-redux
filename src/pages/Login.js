@@ -35,6 +35,11 @@ class Login extends React.Component {
     }, () => { this.handleClick(); });
   }
 
+  settingsBtn = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   requestAPI = async (e) => {
     e.preventDefault();
     const { returnAPI, history } = this.props;
@@ -75,6 +80,13 @@ class Login extends React.Component {
             onClick={ (e) => { this.requestAPI(e); } }
           >
             Play
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.settingsBtn }
+          >
+            Settings
           </button>
         </form>
       </div>
