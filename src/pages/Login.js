@@ -51,7 +51,9 @@ class Login extends React.Component {
   render() {
     const { name, email, isDisabled } = this.state;
     return (
-      <div>
+      <div
+        data-testid="login-div"
+      >
         <form>
           <label htmlFor="name">
             <input
@@ -99,8 +101,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   returnAPI: PropTypes.func.isRequired,
-  history: PropTypes.shape.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
