@@ -41,7 +41,9 @@ class Login extends React.Component {
   render() {
     const { name, email, isDisabled } = this.state;
     return (
-      <div>
+      <div
+        data-testid="login-div"
+      >
         <form>
           <label htmlFor="name">
             <input
@@ -84,7 +86,9 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.shape.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default Login;
