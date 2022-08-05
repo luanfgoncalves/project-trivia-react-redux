@@ -12,8 +12,8 @@ describe('Testa a página de login', () => {
     expect(loginPage).toBeInTheDocument();
   })
 
-  it('Testa o botão Play', () => {
-    renderWithRouterAndRedux(<Login />);
+  it('Testa o botão Play', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
 
      const name = screen.getByTestId("input-player-name");
      const email = screen.getByTestId("input-gravatar-email");
@@ -22,6 +22,11 @@ describe('Testa a página de login', () => {
      userEvent.type(name, 'Grupo12');
      userEvent.type(email, 'teste@teste.com');
      expect(button).toBeEnabled();
+     userEvent.click(button);
+     await waitFor(() => {
+      expect(history.location.pathname).toBe('/game');
+  })
+     
   })
 
   it('Testa o botão settings', async () => {
@@ -33,4 +38,5 @@ describe('Testa a página de login', () => {
         expect(history.location.pathname).toBe('/settings');
     })
   })
+
 })
