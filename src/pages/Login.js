@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -38,6 +40,14 @@ class Login extends React.Component {
     history.push('/settings');
   }
 
+  requestAPI = async (e) => {
+    e.preventDefault();
+    const { returnAPI, history } = this.props;
+    const triviaAPI = await returnAPI();
+    localStorage.setItem('token', triviaAPI.token);
+    history.push('/game');
+  }
+
   render() {
     const { name, email, isDisabled } = this.state;
     return (
@@ -69,6 +79,7 @@ class Login extends React.Component {
             type="submit"
             data-testid="btn-play"
             disabled={ isDisabled }
+            onClick={ (e) => { this.requestAPI(e); } }
           >
             Play
           </button>
@@ -85,10 +96,15 @@ class Login extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  returnAPI: () => dispatch(requestAPI()),
+});
+
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  returnAPI: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
