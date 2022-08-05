@@ -39,7 +39,7 @@ class Login extends React.Component {
     const { history } = this.props;
     history.push('/settings');
   }
-   
+
   requestAPI = async (e) => {
     e.preventDefault();
     const { returnAPI, history } = this.props;
@@ -104,4 +104,3 @@ Login.propTypes = {
 };
 
 export default connect(null, mapDispatchToProps)(Login);
-
