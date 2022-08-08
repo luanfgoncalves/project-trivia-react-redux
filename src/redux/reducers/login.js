@@ -1,4 +1,4 @@
-import { REQUEST_API } from '../actions';
+import { REQUEST_API, SAVE_EMAIL } from '../actions';
 
 const INITIAL_STATE = {
   login: '',
@@ -12,6 +12,12 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       token: action.token,
+    };
+  case SAVE_EMAIL:
+    return {
+      ...state,
+      email: action.payload.email,
+      login: action.payload.name,
     };
   default:
     return state;
