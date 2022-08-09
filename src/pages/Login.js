@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requestAPI } from '../redux/actions';
+import { requestAPI, requestAwaiting } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -12,8 +12,6 @@ class Login extends React.Component {
       email: '',
       isDisabled: true,
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleClick = () => {
@@ -42,7 +40,8 @@ class Login extends React.Component {
 
   requestAPI = async (e) => {
     e.preventDefault();
-    const { returnAPI, history } = this.props;
+    const { returnLoading, returnAPI, history } = this.props;
+    returnLoading();
     const triviaAPI = await returnAPI();
     localStorage.setItem('token', triviaAPI.token);
     history.push('/game');
@@ -98,6 +97,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   returnAPI: () => dispatch(requestAPI()),
+  returnLoading: () => dispatch(requestAwaiting()),
 });
 
 Login.propTypes = {
@@ -105,6 +105,11 @@ Login.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   returnAPI: PropTypes.func.isRequired,
+  returnLoading: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => ({
+  isLoading: state.user.isLoading,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
