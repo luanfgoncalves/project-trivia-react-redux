@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { requestToken, requestAwaiting } from '../redux/actions';
+import Header from './Header';
 
 class Game extends React.Component {
   componentDidMount = () => {
@@ -44,6 +44,7 @@ class Game extends React.Component {
     const { jokes } = this.props;
     return (
       <div>
+        <Header />
         {jokes.map((joke, index) => (
 
           <div
@@ -68,7 +69,7 @@ class Game extends React.Component {
     );
   }
 }
-// :
+
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -1,4 +1,4 @@
-import { REQUEST_API, REQUEST_JOKES, REQUEST_LOADING } from '../actions';
+import { REQUEST_API, REQUEST_JOKES, REQUEST_LOADING, SAVE_EMAIL } from '../actions';
 
 const INITIAL_STATE = {
   login: '',
@@ -16,6 +16,7 @@ const user = (state = INITIAL_STATE, action) => {
       ...state,
       token: action.token,
     };
+
   case REQUEST_JOKES:
     return {
       ...state,
@@ -27,6 +28,12 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       isLoading: true,
+    };
+  case SAVE_EMAIL:
+    return {
+      ...state,
+      email: action.payload.email,
+      login: action.payload.name,
     };
   default:
     return state;
