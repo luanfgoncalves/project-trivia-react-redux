@@ -107,7 +107,7 @@ class Game extends React.Component {
 
   btnNext = () => {
     const { index } = this.state;
-    this.setState({ index: index + 1})
+    this.setState({ index: index + 1 });
   }
 
   render() {
@@ -120,14 +120,16 @@ class Game extends React.Component {
             : this.whileLoop(jokes)
         }
         {
-          !isLoading && clicked ? 
-          <button
-          data-testid='btn-next'
-          onCLick={ this.btnNext }
-          >
-            Next
-          </button>
-          : ''
+          !isLoading && clicked
+            ? (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.btnNext }
+              >
+                Next
+              </button>)
+            : ''
         }
       </div>
     );
