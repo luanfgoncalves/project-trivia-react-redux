@@ -42,13 +42,14 @@ class Game extends React.Component {
   }
 
   randomizer =(joke) => {
+    const { index } = this.state;
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
 
-    return shuffled.map((str, index) => (
+    return shuffled.map((str, i) => (
       <div
         data-testid="answer-options"
         key={ str }
@@ -56,7 +57,7 @@ class Game extends React.Component {
         <button
           type="button"
           data-testid={ str === joke.correct_answer ? 'correct-answer'
-            : `wrong-answer-${index}` }
+            : `wrong-answer-${i}` }
           onClick={ () => (
             this.setState({
               index: index + 1,
