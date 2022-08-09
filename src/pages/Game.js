@@ -1,30 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requestToken, requestAwaiting } from '../redux/actions';
+import { requestAwaiting } from '../redux/actions';
 import Header from './Header';
 
 class Game extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      jokes: [],
+      isLoading: true,
+      index: 0,
+    };
+  }
+
   componentDidMount = () => {
-    const { jokes, isLoading, returnJokes, history } = this.props;
-    const token = localStorage.getItem('token');
-    returnJokes(token);
-    console.log('funcionando');
-    if (jokes.length === 0 && isLoading) {
-      console.log('funcionando2?');
+    this.getJokes();
+  }
+
+  tokenValidation = (data) => {
+    const { history } = this.props;
+    const three = 3;
+    if (data.response_code === three) {
       localStorage.removeItem('token');
       history.push('/');
+    } else {
+      this.setState({
+        jokes: data.results,
+        isLoading: false,
+      });
     }
   }
 
+  getJokes = async () => {
+    const token = localStorage.getItem('token');
+    const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    this.tokenValidation(data);
+  }
+
   randomizer =(joke) => {
+    const { index } = this.state;
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
 
-    return shuffled.map((str, index) => (
+    return shuffled.map((str, i) => (
       <div
         data-testid="answer-options"
         key={ str }
@@ -32,7 +57,12 @@ class Game extends React.Component {
         <button
           type="button"
           data-testid={ str === joke.correct_answer ? 'correct-answer'
-            : `wrong-answer-${index}` }
+            : `wrong-answer-${i}` }
+          onClick={ () => (
+            this.setState({
+              index: index + 1,
+            })
+          ) }
         >
           {str}
         </button>
@@ -40,31 +70,42 @@ class Game extends React.Component {
     ));
   }
 
+  displayJoke = (joke) => (
+    <div
+      key={ joke.question }
+    >
+      <h3
+        data-testid="question-text"
+      >
+        {joke.question}
+
+      </h3>
+      <p
+        data-testid="question-category"
+      >
+        {joke.category}
+      </p>
+      {
+        this.randomizer(joke)
+      }
+    </div>
+  )
+
+  whileLoop = (jokes) => {
+    const { index } = this.state;
+    console.log(jokes[index]);
+    return this.displayJoke(jokes[index]);
+  }
+
   render() {
-    const { jokes } = this.props;
+    const { jokes, isLoading } = this.state;
     return (
       <div>
         <Header />
-        {jokes.map((joke, index) => (
-
-          <div
-            key={ index }
-          >
-            <h3
-              data-testid="question-text"
-            >
-              {joke.question}
-
-            </h3>
-            <p
-              data-testid="question-category"
-            >
-              {joke.category}
-            </p>
-            {
-              this.randomizer(joke)
-            }
-          </div>))}
+        {
+          isLoading ? ''
+            : this.whileLoop(jokes)
+        }
       </div>
     );
   }
@@ -74,15 +115,11 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  returnJokes: PropTypes.func.isRequired,
-  jokes: PropTypes.arrayOf.isRequired,
-  code: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  // : PropTypes.arrayOf.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  returnJokes: (token) => dispatch(requestToken(token)),
-  returnLoading: () => dispatch(requestAwaiting),
+  returnLoading: () => dispatch(requestAwaiting()),
 });
 
 const mapStateToProps = (state) => ({

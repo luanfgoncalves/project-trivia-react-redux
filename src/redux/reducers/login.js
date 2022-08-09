@@ -1,4 +1,4 @@
-import { REQUEST_API, REQUEST_JOKES, REQUEST_LOADING, SAVE_EMAIL } from '../actions';
+import { REQUEST_API, REQUEST_LOADING, SAVE_EMAIL } from '../actions';
 
 const INITIAL_STATE = {
   login: '',
@@ -17,13 +17,13 @@ const user = (state = INITIAL_STATE, action) => {
       token: action.token,
     };
 
-  case REQUEST_JOKES:
-    return {
-      ...state,
-      jokes: action.jokes,
-      code: action.code,
-      isLoading: action.isLoading,
-    };
+  // case REQUEST_JOKES:
+  //   return {
+  //     ...state,
+  //     jokes: action.jokes,
+  //     code: action.code,
+  //     isLoading: action.isLoading,
+  //   };
   case REQUEST_LOADING:
     return {
       ...state,
