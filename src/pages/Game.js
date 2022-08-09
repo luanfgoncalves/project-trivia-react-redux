@@ -14,6 +14,7 @@ class Game extends React.Component {
       isLoading: true,
       index: 0,
       clicked: false,
+      timer: 30,
     };
   }
 
@@ -41,6 +42,17 @@ class Game extends React.Component {
     const response = await fetch(url);
     const data = await response.json();
     this.tokenValidation(data);
+  }
+
+  timer = () => {
+    const { timer } = this.state;
+    const interval = 1000;
+    while (timer >= 0) {
+      console.log(timer);
+      setTimeout(() => this.setState({
+        timer: timer - 1,
+      }), interval);
+    }
   }
 
   getColor = () => {
@@ -80,7 +92,11 @@ class Game extends React.Component {
   }
 
   displayJoke = (joke) => (
-    <div
+    this.timer();
+    {
+
+    }
+      <div
       key={ joke.question }
     >
       <h3
@@ -98,6 +114,8 @@ class Game extends React.Component {
         this.randomizer(joke)
       }
     </div>
+    
+
   )
 
   whileLoop = (jokes) => {
