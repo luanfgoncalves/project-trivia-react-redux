@@ -105,14 +105,29 @@ class Game extends React.Component {
     return this.displayJoke(jokes[index]);
   }
 
+  btnNext = () => {
+    const { index } = this.state;
+    this.setState({ index: index + 1})
+  }
+
   render() {
-    const { jokes, isLoading } = this.state;
+    const { jokes, isLoading, clicked } = this.state;
     return (
       <div>
         <Header />
         {
           isLoading ? ''
             : this.whileLoop(jokes)
+        }
+        {
+          !isLoading && clicked ? 
+          <button
+          data-testid='btn-next'
+          onCLick={ this.btnNext }
+          >
+            Next
+          </button>
+          : ''
         }
       </div>
     );
