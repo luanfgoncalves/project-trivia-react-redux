@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { requestAwaiting } from '../redux/actions';
 import Header from './Header';
 import '../styles/right-wrong.css';
+import Cronometer from '../components/Cronometer';
 
 class Game extends React.Component {
   constructor() {
@@ -115,6 +116,7 @@ class Game extends React.Component {
     return (
       <div>
         <Header />
+        <Cronometer />
         {
           isLoading ? ''
             : this.whileLoop(jokes)
