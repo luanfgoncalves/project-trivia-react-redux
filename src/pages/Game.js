@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { requestAwaiting } from '../redux/actions';
 import Header from './Header';
 import '../styles/right-wrong.css';
-import Cronometer from '../components/Cronometer';
 
 class Game extends React.Component {
   constructor() {
@@ -15,11 +14,13 @@ class Game extends React.Component {
       isLoading: true,
       index: 0,
       clicked: false,
+      seconds: 30,
     };
   }
 
   componentDidMount = () => {
     this.getJokes();
+    this.timer();
   }
 
   tokenValidation = (data) => {
@@ -53,8 +54,26 @@ class Game extends React.Component {
   updateClass = (str, joke) => (str === joke.correct_answer ? 'right'
     : 'wrong')
 
-  randomizer =(joke) => {
-    const { clicked } = this.state;
+  /* TIMER */
+
+  timer = () => {
+    const um = 1;
+    const one = 1000;
+    let { seconds } = this.state;
+
+    const interval = setInterval(() => {
+      if (seconds >= um) {
+        this.setState({ seconds: seconds -= 1 });
+      } else {
+        clearInterval(interval);
+      }
+    }, one);
+  }
+
+  /* */
+
+  randomizer = (joke) => {
+    const { clicked, disabled } = this.state;
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
@@ -73,6 +92,7 @@ class Game extends React.Component {
             : `wrong-answer-${i}` }
           onClick={ (event) => (
             this.getColor(event)) }
+          disabled={ disabled }
         >
           {str}
         </button>
@@ -112,11 +132,11 @@ class Game extends React.Component {
   }
 
   render() {
-    const { jokes, isLoading, clicked } = this.state;
+    const { jokes, isLoading, clicked, seconds } = this.state;
     return (
       <div>
         <Header />
-        <Cronometer />
+        { seconds }
         {
           isLoading ? ''
             : this.whileLoop(jokes)
@@ -152,6 +172,7 @@ const mapStateToProps = (state) => ({
   jokes: state.user.jokes,
   code: state.user.code,
   isLoading: state.user.isLoading,
+  disabled: state.timerReducer.disabled,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
