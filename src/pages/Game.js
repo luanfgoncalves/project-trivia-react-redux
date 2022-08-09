@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { requestAwaiting } from '../redux/actions';
 import Header from './Header';
+import '../styles/right-wrong.css';
 
 class Game extends React.Component {
   constructor() {
@@ -12,6 +13,7 @@ class Game extends React.Component {
       jokes: [],
       isLoading: true,
       index: 0,
+      clicked: false,
     };
   }
 
@@ -41,8 +43,17 @@ class Game extends React.Component {
     this.tokenValidation(data);
   }
 
+  getColor = () => {
+    this.setState({
+      clicked: true,
+    });
+  }
+
+  updateClass = (str, joke) => (str === joke.correct_answer ? 'right'
+    : 'wrong')
+
   randomizer =(joke) => {
-    const { index } = this.state;
+    const { clicked } = this.state;
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
@@ -55,14 +66,12 @@ class Game extends React.Component {
         key={ str }
       >
         <button
+          className={ clicked ? this.updateClass(str, joke) : '' }
           type="button"
           data-testid={ str === joke.correct_answer ? 'correct-answer'
             : `wrong-answer-${i}` }
-          onClick={ () => (
-            this.setState({
-              index: index + 1,
-            })
-          ) }
+          onClick={ (event) => (
+            this.getColor(event)) }
         >
           {str}
         </button>
@@ -93,7 +102,6 @@ class Game extends React.Component {
 
   whileLoop = (jokes) => {
     const { index } = this.state;
-    console.log(jokes[index]);
     return this.displayJoke(jokes[index]);
   }
 
@@ -115,7 +123,6 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  // : PropTypes.arrayOf.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
