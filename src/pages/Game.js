@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requestAwaiting } from '../redux/actions';
+import { requestAwaiting, scorePoints } from '../redux/actions';
 import Header from './Header';
 import '../styles/right-wrong.css';
 
@@ -18,6 +18,8 @@ class Game extends React.Component {
       timeout: false,
       alternatives: [],
       teste: true,
+      score: 0,
+      assertions: 0,
     };
   }
 
@@ -78,16 +80,42 @@ class Game extends React.Component {
     this.tokenValidation(data);
   }
 
-  getColor = () => {
+  getColor = ({ target }, a) => {
     this.setState({
       clicked: true,
     });
+    const { seconds, score, assertions } = this.state;
+    const { scorePointsDispatch } = this.props;
+
+    if (target.value === a.correct_answer) {
+      const dez = 10;
+      const tres = 3;
+      if (a.difficulty === 'hard') {
+        const soma = dez + (tres * seconds);
+        this.setState((prevState) => (
+          { score: prevState.score + soma, assertions: prevState.assertions + 1 }));
+        scorePointsDispatch({ score, assertions });
+      }
+      if (a.difficulty === 'medium') {
+        const soma = dez + (2 * seconds);
+        this.setState((prevState) => (
+          { score: prevState.score + soma, assertions: prevState.assertions + 1 }));
+        scorePointsDispatch({ score, assertions });
+      }
+      if (a.difficulty === 'easy') {
+        const soma = dez + seconds;
+        this.setState((prevState) => (
+          { score: prevState.score + soma, assertions: prevState.assertions + 1 }));
+        scorePointsDispatch({ score, assertions });
+      }
+    }
   }
 
   updateClass = (str, joke) => (str === joke.correct_answer ? 'right'
     : 'wrong')
 
   randomizer = (joke) => {
+    console.log(joke)
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
@@ -133,7 +161,6 @@ class Game extends React.Component {
         <Header />
         { seconds }
         {
-          // PROBLEMA AQUI :
           isLoading ? ''
             : this.whileLoop(jokes)
         }
@@ -148,8 +175,9 @@ class Game extends React.Component {
               data-testid={ str === jokes[index].correct_answer ? 'correct-answer'
                 : `wrong-answer-${index}` }
               onClick={ (event) => (
-                this.getColor(event)) }
+                this.getColor(event, jokes[index])) }
               disabled={ timeout }
+              value={ str }
             >
               {str}
             </button>
@@ -180,6 +208,7 @@ Game.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   returnLoading: () => dispatch(requestAwaiting()),
+  scorePointsDispatch: (payload) => dispatch(scorePoints(payload)),
 });
 
 const mapStateToProps = (state) => ({
