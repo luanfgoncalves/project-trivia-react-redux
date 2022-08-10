@@ -14,7 +14,7 @@ const INITIAL_STATE = {
 };
 
 const user = (state = INITIAL_STATE, action) => {
-  console.log(action, state)
+  console.log(state);
   switch (action.type) {
   case REQUEST_API:
     return {
@@ -30,7 +30,7 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       player: {
-        ...state,
+        ...state.player,
         gravatarEmail: action.payload.email,
         name: action.payload.name,
       },
@@ -39,7 +39,7 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       player: {
-        ...state,
+        ...state.player,
         assertions: action.payload.assertions,
         score: action.payload.score,
       },
