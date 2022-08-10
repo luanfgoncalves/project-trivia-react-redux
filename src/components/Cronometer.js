@@ -7,35 +7,28 @@ class Cronometer extends React.Component {
     super();
 
     this.state = {
-      seconds: 2,
+      seconds: 5,
     };
   }
 
-  componentDidMount() {
-    const one = 1000;
-    this.timerID = setInterval(() => {
-      this.setState((prevState) => ({
-        seconds: prevState.seconds - 1,
-      }));
-    }, one);
-  }
+  // componentDidMount() {
+  //   this.timer();
+  // }
 
-  componentDidUpdate() {
-    this.resetTime();
-  }
+  // timer = () => {
+  //   const um = 1;
+  //   const one = 1000;
+  //   let { seconds } = this.state;
+  //   const { disableAnswer } = this.props;
 
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  resetTime = () => {
-    const { seconds } = this.state;
-    const TIME_LIMIT = -1;
-
-    if (seconds === TIME_LIMIT) {
-      this.setState({ seconds: 0 });
-    }
-  }
+  //   const interval = setInterval(() => {
+  //     if (seconds >= um) {
+  //       this.setState({ seconds: seconds -= 1 });
+  //     } else {
+  //       clearInterval(interval);
+  //     }
+  //   }, one);
+  // }
 
   render() {
     const { seconds } = this.state;

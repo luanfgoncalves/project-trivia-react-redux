@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { requestAwaiting } from '../redux/actions';
 import Header from './Header';
 import '../styles/right-wrong.css';
-import Cronometer from '../components/Cronometer';
 
 class Game extends React.Component {
   constructor() {
@@ -15,11 +14,46 @@ class Game extends React.Component {
       isLoading: true,
       index: 0,
       clicked: false,
+      seconds: 30,
+      timeout: false,
+      alternatives: [],
+      teste: true,
     };
   }
 
   componentDidMount = () => {
     this.getJokes();
+
+    this.timer();
+  }
+
+  componentDidUpdate() {
+    this.stopTimer();
+
+    const { index, jokes, teste } = this.state;
+    if (teste === true) {
+      this.randomizer(jokes[index]);
+    }
+  }
+
+  timer = () => {
+    const one = 1000;
+    setInterval(() => {
+      const { seconds } = this.state;
+
+      if (seconds > 0) {
+        this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+      } else {
+        this.setState({ timeout: true });
+      }
+    }, one);
+  }
+
+  stopTimer = () => {
+    const { seconds } = this.state;
+    if (seconds === 0) {
+      clearInterval(this.timer);
+    }
   }
 
   tokenValidation = (data) => {
@@ -53,31 +87,14 @@ class Game extends React.Component {
   updateClass = (str, joke) => (str === joke.correct_answer ? 'right'
     : 'wrong')
 
-  randomizer =(joke) => {
-    const { clicked } = this.state;
+  randomizer = (joke) => {
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
 
-    return shuffled.map((str, i) => (
-      <div
-        data-testid="answer-options"
-        key={ str }
-      >
-        <button
-          className={ clicked ? this.updateClass(str, joke) : '' }
-          type="button"
-          data-testid={ str === joke.correct_answer ? 'correct-answer'
-            : `wrong-answer-${i}` }
-          onClick={ (event) => (
-            this.getColor(event)) }
-        >
-          {str}
-        </button>
-      </div>
-    ));
+    this.setState({ alternatives: shuffled, teste: false });
   }
 
   displayJoke = (joke) => (
@@ -95,9 +112,6 @@ class Game extends React.Component {
       >
         {joke.category}
       </p>
-      {
-        this.randomizer(joke)
-      }
     </div>
   )
 
@@ -108,19 +122,39 @@ class Game extends React.Component {
 
   btnNext = () => {
     const { index } = this.state;
-    this.setState({ index: index + 1 });
+    this.setState({ index: index + 1, teste: true, clicked: false });
   }
 
   render() {
-    const { jokes, isLoading, clicked } = this.state;
+    const { jokes, isLoading, clicked, seconds,
+      alternatives, index, timeout } = this.state;
     return (
       <div>
         <Header />
-        <Cronometer />
+        { seconds }
         {
+          // PROBLEMA AQUI :
           isLoading ? ''
             : this.whileLoop(jokes)
         }
+        {alternatives.map((str) => (
+          <div
+            data-testid="answer-options"
+            key={ str }
+          >
+            <button
+              className={ clicked ? this.updateClass(str, jokes[index]) : '' }
+              type="button"
+              data-testid={ str === jokes[index].correct_answer ? 'correct-answer'
+                : `wrong-answer-${index}` }
+              onClick={ (event) => (
+                this.getColor(event)) }
+              disabled={ timeout }
+            >
+              {str}
+            </button>
+          </div>
+        ))}
         {
           !isLoading && clicked
             ? (
@@ -152,6 +186,7 @@ const mapStateToProps = (state) => ({
   jokes: state.user.jokes,
   code: state.user.code,
   isLoading: state.user.isLoading,
+  disabled: state.timerReducer.disabled,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
