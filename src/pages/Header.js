@@ -32,20 +32,25 @@ class Header extends React.Component {
           alt="imagem de perfil"
           data-testid="header-profile-picture"
         />
-        <p data-testid="header-score">0.00</p>
+        {
+
+          // <p data-testid="header-score">{ score }</p>
+        }
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  name: state.user.login,
-  email: state.user.email,
+  name: state.player.name,
+  email: state.player.gravatarEmail,
+  score: state.player.score,
 });
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  // score: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

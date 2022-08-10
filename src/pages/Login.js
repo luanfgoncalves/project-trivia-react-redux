@@ -113,7 +113,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: state.user.isLoading,
+  isLoading: state.player.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
