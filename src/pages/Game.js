@@ -168,11 +168,8 @@ class Game extends React.Component {
   render() {
     const { jokes, isLoading, clicked, seconds,
       alternatives, index, timeout } = this.state;
-    const { scoreA } = this.props;
-    console.log(scoreA, 'scoreA');
     return (
       <div>
-        <p data-testid="header-score">{ scoreA }</p>
         <Header />
         { seconds }
         {
@@ -191,7 +188,7 @@ class Game extends React.Component {
                 : `wrong-answer-${index}` }
               onClick={ (event) => (
                 this.getColor(event, jokes[index])) }
-              disabled={ /* clicked || */ timeout }
+              disabled={ clicked || timeout }
               value={ str }
             >
               {str}
@@ -220,7 +217,6 @@ Game.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   scorePointsDispatch: PropTypes.func.isRequired,
-  scoreA: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -231,7 +227,6 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   isLoading: state.player.isLoading,
   disabled: state.timerReducer.disabled,
-  scoreA: state.player.score,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
