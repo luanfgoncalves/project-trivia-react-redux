@@ -17,6 +17,7 @@ class Game extends React.Component {
       seconds: 30,
       timeout: false,
       alternatives: [],
+      teste: true,
     };
   }
 
@@ -28,6 +29,11 @@ class Game extends React.Component {
 
   componentDidUpdate() {
     this.stopTimer();
+
+    const { index, jokes, teste } = this.state;
+    if (teste === true) {
+      this.randomizer(jokes[index]);
+    }
   }
 
   timer = () => {
@@ -65,13 +71,11 @@ class Game extends React.Component {
   }
 
   getJokes = async () => {
-    const { index } = this.state;
     const token = localStorage.getItem('token');
     const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const response = await fetch(url);
     const data = await response.json();
     this.tokenValidation(data);
-    this.randomizer(data.results[index]);
   }
 
   getColor = () => {
@@ -84,15 +88,13 @@ class Game extends React.Component {
     : 'wrong')
 
   randomizer = (joke) => {
-    const { clicked, timeout, alternatives } = this.state;
-    console.log(joke);
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
 
-    this.setState({ alternatives: shuffled });
+    this.setState({ alternatives: shuffled, teste: false });
   }
 
   displayJoke = (joke) => (
@@ -110,9 +112,6 @@ class Game extends React.Component {
       >
         {joke.category}
       </p>
-      {/* {
-        this.randomizer(joke)
-      } */}
     </div>
   )
 
@@ -123,7 +122,7 @@ class Game extends React.Component {
 
   btnNext = () => {
     const { index } = this.state;
-    this.setState({ index: index + 1 });
+    this.setState({ index: index + 1, teste: true, clicked: false });
   }
 
   render() {
