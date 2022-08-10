@@ -94,19 +94,25 @@ class Game extends React.Component {
         const soma = dez + (tres * seconds);
         this.setState((prevState) => (
           { score: prevState.score + soma, assertions: prevState.assertions + 1 }));
-        scorePointsDispatch({ score, assertions });
+        const scoreA = score + soma;
+        const assentionsA = assertions + 1;
+        scorePointsDispatch({ scoreA, assentionsA });
       }
       if (a.difficulty === 'medium') {
         const soma = dez + (2 * seconds);
         this.setState((prevState) => (
           { score: prevState.score + soma, assertions: prevState.assertions + 1 }));
-        scorePointsDispatch({ score, assertions });
+        const scoreA = score + soma;
+        const assentionsA = assertions + 1;
+        scorePointsDispatch({ scoreA, assentionsA });
       }
       if (a.difficulty === 'easy') {
         const soma = dez + seconds;
         this.setState((prevState) => (
           { score: prevState.score + soma, assertions: prevState.assertions + 1 }));
-        scorePointsDispatch({ score, assertions });
+        const scoreA = score + soma;
+        const assentionsA = assertions + 1;
+        scorePointsDispatch({ scoreA, assentionsA });
       }
     }
   }
@@ -115,7 +121,7 @@ class Game extends React.Component {
     : 'wrong')
 
   randomizer = (joke) => {
-    console.log(joke)
+    console.log(joke);
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
@@ -156,8 +162,11 @@ class Game extends React.Component {
   render() {
     const { jokes, isLoading, clicked, seconds,
       alternatives, index, timeout } = this.state;
+    const { scoreA } = this.props;
+    console.log(scoreA, 'scoreA');
     return (
       <div>
+        <p data-testid="header-score">{ scoreA }</p>
         <Header />
         { seconds }
         {
@@ -176,7 +185,7 @@ class Game extends React.Component {
                 : `wrong-answer-${index}` }
               onClick={ (event) => (
                 this.getColor(event, jokes[index])) }
-              disabled={ timeout }
+              disabled={ /* clicked || */ timeout }
               value={ str }
             >
               {str}
@@ -204,6 +213,8 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  scorePointsDispatch: PropTypes.func.isRequired,
+  scoreA: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -212,10 +223,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  jokes: state.user.jokes,
-  code: state.user.code,
-  isLoading: state.user.isLoading,
+  isLoading: state.player.isLoading,
   disabled: state.timerReducer.disabled,
+  scoreA: state.player.score,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
