@@ -46,7 +46,7 @@ class Game extends React.Component {
       if (seconds > 0) {
         this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
       } else {
-        this.setState({ timeout: true });
+        this.setState({ timeout: true, clicked: true });
       }
     }, one);
   }
@@ -156,7 +156,13 @@ class Game extends React.Component {
 
   btnNext = () => {
     const { index } = this.state;
-    this.setState({ index: index + 1, teste: true, clicked: false });
+    const { history } = this.props;
+    const quatro = 4;
+    this.setState({
+      index: index + 1, teste: true, clicked: false, seconds: 30, timeout: false });
+    if (index === quatro) {
+      history.push('/feedback');
+    }
   }
 
   render() {
