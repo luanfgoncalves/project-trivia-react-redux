@@ -15,12 +15,39 @@ class Game extends React.Component {
       index: 0,
       clicked: false,
       seconds: 30,
+      timeout: false,
+      alternatives: [],
     };
   }
 
   componentDidMount = () => {
     this.getJokes();
+
     this.timer();
+  }
+
+  componentDidUpdate() {
+    this.stopTimer();
+  }
+
+  timer = () => {
+    const one = 1000;
+    setInterval(() => {
+      const { seconds } = this.state;
+
+      if (seconds > 0) {
+        this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+      } else {
+        this.setState({ timeout: true });
+      }
+    }, one);
+  }
+
+  stopTimer = () => {
+    const { seconds } = this.state;
+    if (seconds === 0) {
+      clearInterval(this.timer);
+    }
   }
 
   tokenValidation = (data) => {
@@ -38,11 +65,13 @@ class Game extends React.Component {
   }
 
   getJokes = async () => {
+    const { index } = this.state;
     const token = localStorage.getItem('token');
     const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const response = await fetch(url);
     const data = await response.json();
     this.tokenValidation(data);
+    this.randomizer(data.results[index]);
   }
 
   getColor = () => {
@@ -54,50 +83,16 @@ class Game extends React.Component {
   updateClass = (str, joke) => (str === joke.correct_answer ? 'right'
     : 'wrong')
 
-  /* TIMER */
-
-  timer = () => {
-    const um = 1;
-    const one = 1000;
-    let { seconds } = this.state;
-
-    const interval = setInterval(() => {
-      if (seconds >= um) {
-        this.setState({ seconds: seconds -= 1 });
-      } else {
-        clearInterval(interval);
-      }
-    }, one);
-  }
-
-  /* */
-
   randomizer = (joke) => {
-    const { clicked, disabled } = this.state;
+    const { clicked, timeout, alternatives } = this.state;
+    console.log(joke);
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
 
-    return shuffled.map((str, i) => (
-      <div
-        data-testid="answer-options"
-        key={ str }
-      >
-        <button
-          className={ clicked ? this.updateClass(str, joke) : '' }
-          type="button"
-          data-testid={ str === joke.correct_answer ? 'correct-answer'
-            : `wrong-answer-${i}` }
-          onClick={ (event) => (
-            this.getColor(event)) }
-          disabled={ disabled }
-        >
-          {str}
-        </button>
-      </div>
-    ));
+    this.setState({ alternatives: shuffled });
   }
 
   displayJoke = (joke) => (
@@ -115,9 +110,9 @@ class Game extends React.Component {
       >
         {joke.category}
       </p>
-      {
+      {/* {
         this.randomizer(joke)
-      }
+      } */}
     </div>
   )
 
@@ -132,15 +127,35 @@ class Game extends React.Component {
   }
 
   render() {
-    const { jokes, isLoading, clicked, seconds } = this.state;
+    const { jokes, isLoading, clicked, seconds,
+      alternatives, index, timeout } = this.state;
     return (
       <div>
         <Header />
         { seconds }
         {
+          // PROBLEMA AQUI :
           isLoading ? ''
             : this.whileLoop(jokes)
         }
+        {alternatives.map((str) => (
+          <div
+            data-testid="answer-options"
+            key={ str }
+          >
+            <button
+              className={ clicked ? this.updateClass(str, jokes[index]) : '' }
+              type="button"
+              data-testid={ str === jokes[index].correct_answer ? 'correct-answer'
+                : `wrong-answer-${index}` }
+              onClick={ (event) => (
+                this.getColor(event)) }
+              disabled={ timeout }
+            >
+              {str}
+            </button>
+          </div>
+        ))}
         {
           !isLoading && clicked
             ? (
