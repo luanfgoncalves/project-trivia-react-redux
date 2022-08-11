@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import user from './login';
+import player from './login';
+import timerReducer from './game';
 
-const rootReducer = combineReducers({ user });
+const rootReducer = combineReducers({ player, timerReducer });
 
 export default rootReducer;

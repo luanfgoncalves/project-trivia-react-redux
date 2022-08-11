@@ -1,29 +1,22 @@
-import { REQUEST_API, REQUEST_LOADING, SAVE_EMAIL } from '../actions';
+import { REQUEST_API, REQUEST_LOADING, SAVE_EMAIL, SCORE_POINTS } from '../actions';
 
 const INITIAL_STATE = {
-  login: '',
-  email: '',
+  name: '',
+  assertions: 0,
+  score: 0,
+  gravatarEmail: '',
   token: '',
-  jokes: [],
-  code: 0,
   isLoading: false,
 };
 
-const user = (state = INITIAL_STATE, action) => {
+const player = (state = INITIAL_STATE, action) => {
+  console.log(state);
   switch (action.type) {
   case REQUEST_API:
     return {
       ...state,
       token: action.token,
     };
-
-  // case REQUEST_JOKES:
-  //   return {
-  //     ...state,
-  //     jokes: action.jokes,
-  //     code: action.code,
-  //     isLoading: action.isLoading,
-  //   };
   case REQUEST_LOADING:
     return {
       ...state,
@@ -32,12 +25,20 @@ const user = (state = INITIAL_STATE, action) => {
   case SAVE_EMAIL:
     return {
       ...state,
-      email: action.payload.email,
-      login: action.payload.name,
+      gravatarEmail: action.payload.email,
+      name: action.payload.name,
+    };
+  case SCORE_POINTS:
+    return {
+      ...state,
+
+      assertions: action.payload.assentionsA,
+      score: action.payload.scoreA,
+
     };
   default:
     return state;
   }
 };
 
-export default user;
+export default player;
