@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 };
 
 const player = (state = INITIAL_STATE, action) => {
-  console.log(state);
   switch (action.type) {
   case REQUEST_API:
     return {
