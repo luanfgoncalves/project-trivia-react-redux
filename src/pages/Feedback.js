@@ -17,29 +17,61 @@ class Feedback extends React.Component {
     return message;
   };
 
+  playAgain = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
+  goRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
   render() {
+    const { assertionsToDisplay, scoreToDisplay } = this.props;
     return (
       <div>
         <Header />
-        <h1 data-testid="feedback-text">
-          feedbacks
-        </h1>
-        <p
-          data-testid="feedback-text"
-        >
-          <p>{this.scoreboard()}</p>
-        </p>
+        <div>
+          <p data-testid="feedback-total-question">{assertionsToDisplay}</p>
+          <p data-testid="feedback-total-score">{scoreToDisplay}</p>
+        </div>
+        <p data-testid="feedback-text">{this.scoreboard()}</p>
+        <div>
+          <button
+            type="submit"
+            data-testid="btn-play-again"
+            onClick={ this.playAgain }
+          >
+            Play Again
+          </button>
+        </div>
+        <div>
+          <button
+            type="submit"
+            data-testid="btn-ranking"
+            onClick={ this.goRanking }
+          >
+            Ranking
+          </button>
+        </div>
       </div>
+
     );
   }
 }
 
 Feedback.propTypes = {
   assertionsToDisplay: PropTypes.number.isRequired,
+  scoreToDisplay: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   assertionsToDisplay: state.player.assertions,
+  scoreToDisplay: state.player.score,
 });
 
 export default connect(mapStateToProps, null)(Feedback);
