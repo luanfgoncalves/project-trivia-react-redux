@@ -1,9 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import Header from './Header';
+import { cleanRedux } from '../redux/actions';
 
 class Feedback extends React.Component {
+  componentDidMount = () => {
+    this.sendToLocalStorage();
+  }
+
+  sendToLocalStorage = () => {
+    const { email, scoreToDisplay, nameToRanking } = this.props;
+    let ranking = [];
+    if (localStorage.getItem('ranking') !== null) {
+      ranking = JSON.parse(localStorage.getItem('ranking'));
+    }
+    const something = md5(email).toString();
+    const picture = `https://www.gravatar.com/avatar/${something}`;
+    const person = {
+      name: nameToRanking,
+      score: scoreToDisplay,
+      picture,
+    };
+    ranking.push(person);
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+  }
+
   scoreboard = () => {
     const { assertionsToDisplay } = this.props;
     const three = 3;
@@ -18,12 +41,14 @@ class Feedback extends React.Component {
   };
 
   playAgain = () => {
-    const { history } = this.props;
+    const { history, cleanReduxDispatch } = this.props;
+    cleanReduxDispatch();
     history.push('/');
   }
 
   goRanking = () => {
-    const { history } = this.props;
+    const { history, cleanReduxDispatch } = this.props;
+    cleanReduxDispatch();
     history.push('/ranking');
   }
 
@@ -64,14 +89,23 @@ class Feedback extends React.Component {
 Feedback.propTypes = {
   assertionsToDisplay: PropTypes.number.isRequired,
   scoreToDisplay: PropTypes.number.isRequired,
+  email: PropTypes.string.isRequired,
+  nameToRanking: PropTypes.string.isRequired,
+  cleanReduxDispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  cleanReduxDispatch: () => dispatch((cleanRedux())),
+});
+
 const mapStateToProps = (state) => ({
   assertionsToDisplay: state.player.assertions,
   scoreToDisplay: state.player.score,
+  imgToRanking: state.player.gravatarEmail,
+  nameToRanking: state.player.name,
 });
 
-export default connect(mapStateToProps, null)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

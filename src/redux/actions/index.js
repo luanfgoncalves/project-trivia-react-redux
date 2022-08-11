@@ -2,6 +2,7 @@ export const REQUEST_API = 'REQUEST_API';
 export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const DISABLE_SWITCH = 'DISABLE_SWITCH';
 export const SCORE_POINTS = 'SCORE_POINTS';
+export const CLEAN_REDUX = 'CLEAN_REDUX';
 
 export const requestAPI = () => async (dispatch) => {
   const URL = 'https://opentdb.com/api_token.php?command=request';
@@ -33,4 +34,8 @@ export const disableSwitch = () => (dispatch) => {
 export const scorePoints = (payload) => ({
   type: SCORE_POINTS,
   payload,
+});
+
+export const cleanRedux = () => ({
+  type: CLEAN_REDUX,
 });
