@@ -15,7 +15,7 @@ class Ranking extends React.Component {
       ranked.sort((a, b) => b.score - a.score);
       return ranked.map((rank, index) => (
         <div
-          key={ rank.picture }
+          key={ index }
         >
           <img
             src={ rank.picture }

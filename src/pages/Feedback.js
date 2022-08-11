@@ -87,15 +87,15 @@ class Feedback extends React.Component {
 }
 
 Feedback.propTypes = {
-  assertionsToDisplay: PropTypes.number.isRequired,
-  scoreToDisplay: PropTypes.number.isRequired,
-  email: PropTypes.string.isRequired,
-  nameToRanking: PropTypes.string.isRequired,
-  cleanReduxDispatch: PropTypes.func.isRequired,
+  assertionsToDisplay: PropTypes.number,
+  scoreToDisplay: PropTypes.number,
+  email: PropTypes.string,
+  nameToRanking: PropTypes.string,
+  cleanReduxDispatch: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   cleanReduxDispatch: () => dispatch((cleanRedux())),
