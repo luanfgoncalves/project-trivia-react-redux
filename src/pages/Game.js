@@ -121,7 +121,6 @@ class Game extends React.Component {
     : 'wrong')
 
   randomizer = (joke) => {
-    console.log(joke);
     const unshuffled = [...joke.incorrect_answers, joke.correct_answer];
     const shuffled = unshuffled
       .map((value) => ({ value, sort: Math.random() }))
