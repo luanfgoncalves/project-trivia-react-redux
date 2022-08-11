@@ -147,6 +147,7 @@ class Game extends React.Component {
         {joke.category}
       </p>
     </div>
+
   )
 
   whileLoop = (jokes) => {
