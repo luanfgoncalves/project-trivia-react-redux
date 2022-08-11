@@ -1,4 +1,5 @@
-import { REQUEST_API, REQUEST_LOADING, SAVE_EMAIL, SCORE_POINTS } from '../actions';
+import { REQUEST_API, REQUEST_LOADING, SAVE_EMAIL,
+  SCORE_POINTS, CLEAN_REDUX } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -34,6 +35,15 @@ const player = (state = INITIAL_STATE, action) => {
       assertions: action.payload.assentionsA,
       score: action.payload.scoreA,
 
+    };
+  case CLEAN_REDUX:
+    return {
+      name: '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: '',
+      token: '',
+      isLoading: false,
     };
   default:
     return state;
