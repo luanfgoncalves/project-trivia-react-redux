@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { scorePoints } from '../redux/actions';
 import Header from './Header';
-import '../styles/right-wrong.css';
+// import '../styles/right-wrong.css';
 
 class Game extends React.Component {
   constructor() {
@@ -132,6 +132,7 @@ class Game extends React.Component {
 
   displayJoke = (joke) => (
     <div
+      className="question"
       key={ joke.question }
     >
       <h3
