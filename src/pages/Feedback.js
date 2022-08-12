@@ -57,11 +57,16 @@ class Feedback extends React.Component {
     return (
       <div>
         <Header />
-        <div>
+        <div className="final-score">
           <p data-testid="feedback-total-question">{assertionsToDisplay}</p>
           <p data-testid="feedback-total-score">{scoreToDisplay}</p>
         </div>
-        <p data-testid="feedback-text">{this.scoreboard()}</p>
+        <p
+          className="feedback-txt"
+          data-testid="feedback-text"
+        >
+          {this.scoreboard()}
+        </p>
         <div>
           <button
             type="submit"

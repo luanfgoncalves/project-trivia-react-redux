@@ -25,7 +25,7 @@ class Header extends React.Component {
     const { name, score } = this.props;
     const { hash } = this.state;
     return (
-      <div>
+      <div className="header">
         <p data-testid="header-player-name">{name}</p>
         <img
           className="user-img"
