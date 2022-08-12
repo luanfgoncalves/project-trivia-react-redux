@@ -1,6 +1,8 @@
 import React from 'react';
+import '../styles/login.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import logo from '../trivia.png';
 import { requestAPI, requestAwaiting, saveEmail } from '../redux/actions';
 
 class Login extends React.Component {
@@ -55,43 +57,55 @@ class Login extends React.Component {
       <div
         data-testid="login-div"
       >
-        <form>
-          <label htmlFor="name">
-            <input
-              data-testid="input-player-name"
-              type="text"
-              name="name"
-              value={ name }
-              placeholder="Name"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="email">
-            <input
-              data-testid="input-gravatar-email"
-              type="email"
-              name="email"
-              value={ email }
-              placeholder="E-mail"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <button
-            type="submit"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ (e) => { this.requestAPI(e); } }
-          >
-            Play
-          </button>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.settingsBtn }
-          >
-            Settings
-          </button>
-        </form>
+        <figure>
+          <img src={ logo } className="App-logo" alt="logo" />
+        </figure>
+        <div
+          className="login_form_div"
+        >
+          <form>
+            <label htmlFor="name">
+              <input
+                data-testid="input-player-name"
+                type="text"
+                name="name"
+                value={ name }
+                placeholder="Name"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label htmlFor="email">
+              <input
+                data-testid="input-gravatar-email"
+                type="email"
+                name="email"
+                value={ email }
+                placeholder="E-mail"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <div
+              className="btns_form"
+            >
+              <button
+                type="submit"
+                data-testid="btn-play"
+                disabled={ isDisabled }
+                onClick={ (e) => { this.requestAPI(e); } }
+              >
+                Play
+              </button>
+              <button
+                type="button"
+                data-testid="btn-settings"
+                onClick={ this.settingsBtn }
+              >
+                Settings
+              </button>
+            </div>
+          </form>
+        </div>
+
       </div>
     );
   }
