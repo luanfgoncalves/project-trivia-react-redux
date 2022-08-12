@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/login.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import logo from '../trivia.png';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { scorePoints } from '../redux/actions';
 import Header from './Header';
-import '../styles/right-wrong.css';
+// import '../styles/right-wrong.css';
 
 class Game extends React.Component {
   constructor() {
@@ -132,6 +132,7 @@ class Game extends React.Component {
 
   displayJoke = (joke) => (
     <div
+      className="question"
       key={ joke.question }
     >
       <h3
@@ -171,42 +172,46 @@ class Game extends React.Component {
     return (
       <div>
         <Header />
-        { seconds }
-        {
-          isLoading ? ''
-            : this.whileLoop(jokes)
-        }
-        {alternatives.map((str) => (
-          <div
-            data-testid="answer-options"
-            key={ str }
-          >
-            <button
-              className={ clicked ? this.updateClass(str, jokes[index]) : '' }
-              type="button"
-              data-testid={ str === jokes[index].correct_answer ? 'correct-answer'
-                : `wrong-answer-${index}` }
-              onClick={ (event) => (
-                this.getColor(event, jokes[index])) }
-              disabled={ clicked || timeout }
-              value={ str }
+        <div>
+          <h1 className="timer">
+            { seconds }
+          </h1>
+          {
+            isLoading ? ''
+              : this.whileLoop(jokes)
+          }
+          {alternatives.map((str) => (
+            <div
+              data-testid="answer-options"
+              key={ str }
             >
-              {str}
-            </button>
-          </div>
-        ))}
-        {
-          !isLoading && clicked
-            ? (
               <button
+                className={ clicked ? this.updateClass(str, jokes[index]) : '' }
                 type="button"
-                data-testid="btn-next"
-                onClick={ this.btnNext }
+                data-testid={ str === jokes[index].correct_answer ? 'correct-answer'
+                  : `wrong-answer-${index}` }
+                onClick={ (event) => (
+                  this.getColor(event, jokes[index])) }
+                disabled={ clicked || timeout }
+                value={ str }
               >
-                Next
-              </button>)
-            : ''
-        }
+                {str}
+              </button>
+            </div>
+          ))}
+          {
+            !isLoading && clicked
+              ? (
+                <button
+                  type="button"
+                  data-testid="btn-next"
+                  onClick={ this.btnNext }
+                >
+                  Next
+                </button>)
+              : ''
+          }
+        </div>
       </div>
     );
   }

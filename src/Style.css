@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&family=Montserrat&display=swap') ;
+
+* {
+  font-family: Roboto , Epilogue , sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.right {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wrong {
+  border: 3px solid red;
+}
+
+body {
+  background: linear-gradient(45deg, rgba(0, 89, 138, 9) 0%, rgba(4, 200, 148, 9) 100%);
+  background-color: transparent;
+  height: 100vh;
+  width: 100vw;
+}
+
+figure {
+  padding-top: 200px;
+}
+
+.login_form_div {
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  left: 50%;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  z-index: 1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  font-size: 1.2rem;
+  height: 25px;
+  margin-bottom: 7px;
+  padding: 0.3rem 0.75rem;
+  width: 350px;
+}
+
+/* Div com os componentes de Login */
+.btns_form {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 10;
+  height: 40px;
+  justify-content: space-between;
+  line-height: 120%;
+  padding-left: 50px;
+  padding-right: 50px;
+  width: 430px;
+}
+
+button {
+  background-color: aqua;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 4px;
+  width: 15vw;
+}
+
+button:hover {
+  box-shadow: var(--shadow-2);
+  filter: brightness(110%);
+  transform: scale(1.1);
+}
+
+button:active {
+  box-shadow: var(--shadow-3);
+}
+
+button:disabled {
+  color: black;
+  cursor: wait;
+  opacity: 0.5;
+}
+
+/* Pergunta no Game */
+.question {
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  left: 50%;
+  margin-left: 50%;
+  margin-top: 55px;
+  padding: 10px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  z-index: 1;
+}
+
+/* Imagem de perfil do usuário */
+.user-img {
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+}
+
+/* contador de tempo do jogo */
+.timer {
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  color: red;
+  font-size: 150;
+  font-weight: 150;
+  left: 50%;
+  margin-left: 50%;
+  margin-top: -50px;
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  z-index: 1;
+}
+
+.header {
+  align-items: center;
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+  font-weight: 500;
+  height: 250px;
+  justify-content: space-between;
+  margin-left: 50%;
+  margin-top: 130px;
+  transform: translate(-50%, -50%);
+  width: 300px;
+}
+
+.final-score {
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  color: rgb(136, 138, 7);
+  font-size: 30px;
+  font-weight: 500;
+  left: 50%;
+  margin-left: 50%;
+  margin-top: -50px;
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  z-index: 1;
+}
+
+.feedback-txt {
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  color: rgb(3, 4, 39);
+  font-size: 40px;
+  font-weight: 500;
+  margin-left: 50%;
+  margin-top: 30px;
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+}
