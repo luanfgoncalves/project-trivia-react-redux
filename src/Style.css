@@ -110,7 +110,7 @@ button:disabled {
 /* Imagem de perfil do usuário */
 .user-img {
   border-radius: 50%;
-  height: 150px;;
+  height: 150px;
   width: 150px;
 }
 
@@ -153,7 +153,7 @@ button:disabled {
   border-radius: 10px;
   box-shadow: 0 5px 20px 0;
   color: rgb(136, 138, 7);
-  font-size:30px;
+  font-size: 30px;
   font-weight: 500;
   left: 50%;
   margin-left: 50%;
@@ -169,7 +169,7 @@ button:disabled {
   border-radius: 10px;
   box-shadow: 0 5px 20px 0;
   color: rgb(3, 4, 39);
-  font-size:40px;
+  font-size: 40px;
   font-weight: 500;
   margin-left: 50%;
   margin-top: 30px;
