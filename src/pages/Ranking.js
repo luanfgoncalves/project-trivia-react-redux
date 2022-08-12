@@ -16,6 +16,7 @@ class Ranking extends React.Component {
       return ranked.map((rank, index) => (
         <div
           key={ index }
+          className="rank-person"
         >
           <img
             src={ rank.picture }

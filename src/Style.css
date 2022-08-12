@@ -177,3 +177,15 @@ button:disabled {
   transform: translate(-50%, -50%);
   width: fit-content;
 }
+
+.rank-person {
+  background-color: rgba(226, 223, 223, 0.87);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0;
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 47%;
+  margin-top: 30px;
+  padding: 10px;
+  width: fit-content;
+}
