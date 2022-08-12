@@ -9,6 +9,7 @@ class Settings extends React.Component {
         >
           Settings
         </h1>
+        <img src="https://i.imgur.com/qhMbkGi.jpg" alt="cadê as settings?" />
       </div>
     );
   }
