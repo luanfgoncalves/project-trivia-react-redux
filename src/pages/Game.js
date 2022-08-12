@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requestAwaiting, scorePoints } from '../redux/actions';
+import { scorePoints } from '../redux/actions';
 import Header from './Header';
 import '../styles/right-wrong.css';
 
@@ -220,7 +220,6 @@ Game.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  returnLoading: () => dispatch(requestAwaiting()),
   scorePointsDispatch: (payload) => dispatch(scorePoints(payload)),
 });
 

@@ -105,12 +105,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  returnAPI: PropTypes.func.isRequired,
-  returnLoading: PropTypes.func.isRequired,
-  saveInfo: PropTypes.func.isRequired,
-};
+    push: PropTypes.func,
+  }),
+  returnAPI: PropTypes.func,
+  returnLoading: PropTypes.func,
+  saveInfo: PropTypes.func,
+}.isRequired;
 
 const mapStateToProps = (state) => ({
   isLoading: state.player.isLoading,
